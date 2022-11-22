@@ -13,55 +13,60 @@
 #include "get_next_line.h"
 #include <fcntl.h>
 
-int get_line(int line, int fd)
+int	size(char *tmp)
 {
-	int c;
-	int i;
+	int 	i;
 
-	c = 0;
 	i = 0;
-	if (line == 0)
-		return (fd);
-	while (read(fd, &c, 1) == 1 /*&& i < BUFFER_SIZE*/)
-	{
-		//printf("oui");
-		if (c == '\n')
-		{
-			i = 0;
-			line--;
-		}
-		if (line == 0)
-			break;
+	while(tmp[i] != '\n')
 		i++;
+	return (i);
+}
+
+char *get_line(char *line, char *tmp)
+{
+	int 	i;
+
+	i = 0;
+	while(tmp[i] != '\n')
+		i++;
+	//line[i + 1] = '\n';
+	while(i > 0)
+	{
+		line[i] = tmp[i];
+		i--;
 	}
-	return (fd);
+	line[i] = tmp[i];
+	return (line);
 }
 
 char	*get_next_line(int fd)
 {
-	char lineStr[BUFFER_SIZE + 1];
-	static int	line;
-	int	i = 0;
-	int c = 0;
+	static char	*tmp = 0;
+	char	*buffer[BUFFER_SIZE + 1];
+	char	*line;
+	int i;
 
+	i = 0;
 	if (fd == -1 || BUFFER_SIZE <= 0)
 		return (0);
-	fd = get_line(line, fd);
-	while (read(fd, &c, 1) == 1 && i < BUFFER_SIZE)
+	while (ft_strchr(tmp, '\n') == 0)
 	{
-		lineStr[i] = c;
-		i++;
+		read(fd, &buffer, BUFFER_SIZE);
+		tmp = ft_strjoin(tmp, (((char *)buffer) + i));
 	}
-	printf("%s\n", lineStr);
-	line++;
-	return (0);
+	line = malloc(sizeof(char) * size(tmp));
+	line = get_line(line, tmp);
+	return (line);
+	//return (tmp);
 }
 
 int main()
 {
 	int fd = open("file", O_RDWR);
-	get_next_line(fd);
-	get_next_line(fd);
-	get_next_line(fd);
+	printf("result = %s\n//", get_next_line(fd));
+	//printf("result = %s\n", get_next_line(fd));
+	//printf("%s", get_next_line(fd));
+	//get_next_line(fd);*/
 
 }
