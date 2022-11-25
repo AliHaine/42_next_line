@@ -33,7 +33,7 @@ size_t	ft_strlen(const char *c)
 	size_t	i;
 
 	i = 0;
-	if (c == 0)
+	if (!c)
 		return (0);
 	while (c[i])
 		i++;
@@ -57,12 +57,10 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	int		x;
 	char	*dst;
 
-	if (!s1)
-		s1 = ft_calloc(1, 1);
 	i = ft_strlen(((char *)s1)) + ft_strlen(((char *)s2));
 	x = 0;
 	dst = (char *) malloc((i + 1) * sizeof(char));
-	if (dst == NULL)
+	if (dst == NULL || !s1 || !s2)
 		return (0);
 	i = 0;
 	while (s1[i])
@@ -79,6 +77,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		x++;
 	}
 	dst[x] = '\0';
+	free(((void *)s2));
 	return (dst);
 }
 
