@@ -43,12 +43,18 @@ size_t	ft_strlen(const char *c)
 void	*ft_calloc(size_t count, size_t size)
 {
 	char	*c;
+	int		i;
 
-	c = malloc(count * size);
+	c = malloc(sizeof(char) * (count * size));
+	i = 0;
 	if (c == NULL)
 		return (0);
-	ft_memset(c, '\0', count * size);
-	return (((char *)c));
+	while (size > 0)
+	{
+		c[i++] = '\0';
+		size--;
+	}
+	return (c);
 }
 
 char	*ft_strjoin(char const *s1, char const *s2)
@@ -77,19 +83,5 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		x++;
 	}
 	dst[x] = '\0';
-	free(((void *)s2));
 	return (dst);
-}
-
-void	*ft_memset(void *pointer, int value, size_t size)
-{
-	int	i;
-
-	i = 0;
-	while (size > 0)
-	{
-		((unsigned char *) pointer)[i++] = (unsigned char) value;
-		size--;
-	}
-	return (pointer);
 }

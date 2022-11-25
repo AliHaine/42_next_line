@@ -25,11 +25,13 @@ static char	*next_line(char *tmp, int i)
 		free(tmp);
 		return (NULL);
 	}
-	line = malloc( sizeof(char) * (ft_strlen(tmp) - i + 1));
+	line = malloc(sizeof(char) * ((ft_strlen(tmp) - i) + 1));
 	i++;
 	j = 0;
 	while (tmp[i])
 		line[j++] = tmp[i++];
+	//printf("j : %d", i);
+	//printf("/-%s, %s-/\n", line, tmp);
 	free(tmp);
 	return (line);
 }
@@ -46,8 +48,10 @@ static char	*read_file(int fd, char *tmp)
 	while (read_ret > 0)
 	{
 		read_ret = read(fd, buffer, BUFFER_SIZE);
-		if (read_ret == -1)
+		//printf("%d", read_ret);
+		if (read_ret < 0)
 		{
+			free(tmp);
 			free(buffer);
 			return (NULL);
 		}
@@ -83,20 +87,27 @@ char	*get_next_line(int fd)
 
 	line = 0;
 	i = 0;
-	if (fd == -1 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (0);
 	tmp = read_file(fd, tmp);
 	if (!tmp)
 		return (NULL);
 	line = get_line(line, tmp, i);
 	tmp = next_line(tmp, i);
+	//printf("line = %s, tmp = %s\n", line, tmp);
 	return (line);
 }
 
 int main()
 {
 	int fd = open("file", O_RDWR);
-	printf("result = %s", get_next_line(fd));
-	printf("result = %s", get_next_line(fd));
+	//get_next_line(fd);
+	//get_next_line(fd);
+	//get_next_line(fd);
+	printf("%s", get_next_line(fd));
+	//printf("%s", get_next_line(fd));
+	//printf("%s", get_next_line(fd));
+	//printf("%s", get_next_line(fd));
+	//printf("result = %s", get_next_line(fd));
 
 }
