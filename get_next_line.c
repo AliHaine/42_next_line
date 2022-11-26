@@ -23,8 +23,9 @@ static char	*next_line(char *tmp, int i)
 	if (!tmp[i])
 	{
 		free(tmp);
-		return (NULL);
+		return (0);
 	}
+	//to cqlloc
 	line = malloc(sizeof(char) * ((ft_strlen(tmp) - i) + 1));
 	i++;
 	j = 0;
@@ -48,7 +49,6 @@ static char	*read_file(int fd, char *tmp)
 	while (read_ret > 0)
 	{
 		read_ret = read(fd, buffer, BUFFER_SIZE);
-		printf("salut");
 		if (read_ret < 0)
 		{
 			free(tmp);
@@ -66,15 +66,18 @@ static char	*read_file(int fd, char *tmp)
 
 static char	*get_line(char *line, char *tmp, int i)
 {
+	if (!tmp)
+		return (0);
 	while (tmp[i] && tmp[i] != '\n')
 		i++;
-	line = malloc(sizeof(char) * (i + 1));
+	line = malloc(sizeof(char) * (i + 2));
 	i = 0;
 	while(tmp[i] && tmp[i] != '\n')
 	{
 		line[i] = tmp[i];
 		i++;
 	}
+	//ck
 	line[i] = '\n';
 	return (line);
 }
