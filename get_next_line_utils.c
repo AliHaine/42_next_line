@@ -65,8 +65,9 @@ char	*ft_strjoin(char const *s1, char const *s2)
 
 	i = ft_strlen(((char *)s1)) + ft_strlen(((char *)s2));
 	x = 0;
+	//dst = 0;
 	dst = (char *) malloc((i + 1) * sizeof(char));
-	if (dst == NULL || !s1 || !s2)
+	if (!s1 || !s2)
 		return (0);
 	i = 0;
 	while (s1[i])

@@ -48,12 +48,12 @@ static char	*read_file(int fd, char *tmp)
 	while (read_ret > 0)
 	{
 		read_ret = read(fd, buffer, BUFFER_SIZE);
-		//printf("%d", read_ret);
+		printf("salut");
 		if (read_ret < 0)
 		{
 			free(tmp);
 			free(buffer);
-			return (NULL);
+			return (0);
 		}
 		buffer[read_ret] = '\0';
 		tmp = ft_strjoin(tmp, buffer);
@@ -94,6 +94,7 @@ char	*get_next_line(int fd)
 		return (NULL);
 	line = get_line(line, tmp, i);
 	tmp = next_line(tmp, i);
+	i = 0;
 	//printf("line = %s, tmp = %s\n", line, tmp);
 	return (line);
 }
