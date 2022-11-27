@@ -68,10 +68,12 @@ static char	*get_line(char *line, char *tmp, int i)
 {
 	while (tmp[i] && tmp[i] != '\n')
 		i++;
-	line = malloc(sizeof(char) * (i + 2));
+	line = ft_calloc(i + 2, sizeof (char));
+	//printf("-*d = %d*-", i);
 	i = 0;
 	while(tmp[i] && tmp[i] != '\n')
 	{
+		//printf("chqr = %c//", tmp[i]);
 		line[i] = tmp[i];
 		i++;
 	}
@@ -95,7 +97,9 @@ char	*get_next_line(int fd)
 	tmp = read_file(fd, tmp);
 	if (!tmp)
 		return (NULL);
+	//printf("//tmp = %s//", tmp);
 	line = get_line(line, tmp, i);
+	//printf("//line = %s//", line);
 	tmp = next_line(tmp, i);
 	i = 0;
 	//printf("line = %s, tmp = %s\n", line, tmp);

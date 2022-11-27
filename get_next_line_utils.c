@@ -22,7 +22,7 @@ int	ft_strchr(const char *str, int strchar)
 	while (str[i])
 	{
 		if (str[i] == ((char)(strchar)))
-			return (i);
+			return (strchar);
 		i++;
 	}
 	return (0);
@@ -40,20 +40,28 @@ size_t	ft_strlen(const char *c)
 	return (i);
 }
 
+void	ft_bzero(void *s, size_t n)
+{
+	char	*str;
+	size_t	i;
+
+	str = (char *)s;
+	i = 0;
+	while (i < n)
+	{
+		str[i] = '\0';
+		i++;
+	}
+}
+
 void	*ft_calloc(size_t count, size_t size)
 {
 	char	*c;
-	int		i;
 
-	c = malloc(sizeof(char) * (count * size));
-	i = 0;
+	c = malloc(size * count);
 	if (c == NULL)
 		return (0);
-	while (size > 0)
-	{
-		c[i++] = '\0';
-		size--;
-	}
+	ft_bzero(c, size * count);
 	return (c);
 }
 
