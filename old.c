@@ -6,7 +6,7 @@
 /*   By: ayagmur <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/20 12:56:38 by ayagmur           #+#    #+#             */
-/*   Updated: 2022/11/20 12:56:39 by ayagmur          ###   ########.fr       */
+/*   Updated: 2022/11/27 14:40:33 by ayagmur          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ static char	*next_line(char *tmp, int i)
 		free(tmp);
 		return (0);
 	}
-	//line = malloc(sizeof(char) * ((ft_strlen(tmp) - i) + 1));
-	line = calloc(ft_strlen(tmp) - (i + 1), 1);
+	//to cqlloc
+	line = malloc(sizeof(char) * ((ft_strlen(tmp) - i) + 1));
 	i++;
 	j = 0;
 	while (tmp[i])
@@ -66,6 +66,8 @@ static char	*read_file(int fd, char *tmp)
 
 static char	*get_line(char *line, char *tmp, int i)
 {
+	if (!tmp)
+		return (0);
 	while (tmp[i] && tmp[i] != '\n')
 		i++;
 	line = malloc(sizeof(char) * (i + 2));
@@ -75,10 +77,8 @@ static char	*get_line(char *line, char *tmp, int i)
 		line[i] = tmp[i];
 		i++;
 	}
-	//line[i] = '\n';
-
-	if (tmp[i] == '\n' || tmp[i] == '\0')
-		line[i++] = '\n';
+	//ck
+	line[i] = '\n';
 	return (line);
 }
 
@@ -110,7 +110,7 @@ int main()
 	//get_next_line(fd);
 	printf("%s", get_next_line(fd));
 	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
+	//printf("%s", get_next_line(fd));
 	//printf("%s", get_next_line(fd));
 	//printf("result = %s", get_next_line(fd));
 
