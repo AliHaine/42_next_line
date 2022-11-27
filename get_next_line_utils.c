@@ -40,7 +40,7 @@ size_t	ft_strlen(const char *c)
 	return (i);
 }
 
-void	ft_bzero(void *s, size_t n)
+static void	ft_bzero(void *s, size_t n)
 {
 	char	*str;
 	size_t	i;
@@ -73,12 +73,11 @@ char	*ft_strjoin(char const *s1, char const *s2)
 
 	i = ft_strlen(((char *)s1)) + ft_strlen(((char *)s2));
 	x = 0;
-	//dst = 0;
 	dst = (char *) malloc(sizeof(char) * (i + 1));
-	if (!dst || !s1 || !s2)
+	if (!dst || !s2)
 		return (0);
 	i = 0;
-	while (s1[i])
+	while (s1 && s1[i])
 	{
 		dst[i] = s1[i];
 		i++;
@@ -92,5 +91,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		x++;
 	}
 	dst[x] = '\0';
+	free(((char *) s1));
 	return (dst);
 }

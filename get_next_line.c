@@ -25,14 +25,14 @@ static char	*next_line(char *tmp, int i)
 		free(tmp);
 		return (0);
 	}
-	//line = malloc(sizeof(char) * ((ft_strlen(tmp) - i) + 1));
-	line = calloc(ft_strlen(tmp) - (i + 1), 1);
+	line = calloc((ft_strlen(tmp) - i) + 1, sizeof(char));
+	if (line == NULL)
+		return (0);
 	i++;
 	j = 0;
 	while (tmp[i])
 		line[j++] = tmp[i++];
-	//printf("j : %d", i);
-	//printf("/-%s, %s-/\n", line, tmp);
+	line[j] = '\0';
 	free(tmp);
 	return (line);
 }
@@ -42,21 +42,22 @@ static char	*read_file(int fd, char *tmp)
 	char	*buffer;
 	int		read_ret;
 
-	if (!tmp)
-		tmp = ft_calloc(1, 1);
 	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	if (buffer == NULL)
+		return (0);
 	read_ret = 1;
 	while (read_ret > 0)
 	{
 		read_ret = read(fd, buffer, BUFFER_SIZE);
 		if (read_ret < 0)
 		{
-			free(tmp);
 			free(buffer);
 			return (0);
 		}
 		buffer[read_ret] = '\0';
 		tmp = ft_strjoin(tmp, buffer);
+		if (tmp == NULL)
+			return (0);
 		if (ft_strchr(buffer, '\n'))
 			break ;
 	}
@@ -68,19 +69,18 @@ static char	*get_line(char *line, char *tmp, int i)
 {
 	while (tmp[i] && tmp[i] != '\n')
 		i++;
-	line = ft_calloc(i + 2, sizeof (char));
-	//printf("-*d = %d*-", i);
+	line = ft_calloc(i + 2, sizeof(char));
+	if (line == NULL)
+		return (0);
 	i = 0;
 	while(tmp[i] && tmp[i] != '\n')
 	{
-		//printf("chqr = %c//", tmp[i]);
 		line[i] = tmp[i];
 		i++;
 	}
-	//line[i] = '\n';
-
-	if (tmp[i] == '\n' || tmp[i] == '\0')
+	if (tmp[i] == '\n')
 		line[i++] = '\n';
+	line[i] = '\0';
 	return (line);
 }
 
@@ -96,26 +96,29 @@ char	*get_next_line(int fd)
 		return (0);
 	tmp = read_file(fd, tmp);
 	if (!tmp)
-		return (NULL);
-	//printf("//tmp = %s//", tmp);
+		return (0);
 	line = get_line(line, tmp, i);
-	//printf("//line = %s//", line);
 	tmp = next_line(tmp, i);
-	i = 0;
-	//printf("line = %s, tmp = %s\n", line, tmp);
+	if (line[i] == 0) {
+		free(line);
+		return (NULL);
+	}
 	return (line);
 }
-
+/*
 int main()
 {
 	int fd = open("file", O_RDWR);
 	//get_next_line(fd);
 	//get_next_line(fd);
 	//get_next_line(fd);
+	//get_next_line(fd);
+	//get_next_line(fd);
+	//get_next_line(fd);
+	//get_next_line(fd);
 	printf("%s", get_next_line(fd));
 	printf("%s", get_next_line(fd));
 	printf("%s", get_next_line(fd));
-	//printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
 	//printf("result = %s", get_next_line(fd));
-
-}
+}*/
