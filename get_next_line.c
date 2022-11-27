@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <fcntl.h>
 
 static char	*next_line(char *tmp, int i)
 {
@@ -73,7 +72,7 @@ static char	*get_line(char *line, char *tmp, int i)
 	if (line == NULL)
 		return (0);
 	i = 0;
-	while(tmp[i] && tmp[i] != '\n')
+	while (tmp[i] && tmp[i] != '\n')
 	{
 		line[i] = tmp[i];
 		i++;
@@ -99,26 +98,10 @@ char	*get_next_line(int fd)
 		return (0);
 	line = get_line(line, tmp, i);
 	tmp = next_line(tmp, i);
-	if (line[i] == 0) {
+	if (line[i] == 0)
+	{
 		free(line);
 		return (NULL);
 	}
 	return (line);
 }
-/*
-int main()
-{
-	int fd = open("file", O_RDWR);
-	//get_next_line(fd);
-	//get_next_line(fd);
-	//get_next_line(fd);
-	//get_next_line(fd);
-	//get_next_line(fd);
-	//get_next_line(fd);
-	//get_next_line(fd);
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	printf("%s", get_next_line(fd));
-	//printf("result = %s", get_next_line(fd));
-}*/

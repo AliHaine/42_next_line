@@ -85,11 +85,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	}
 	i = 0;
 	while (s2[i])
-	{
-		dst[x] = s2[i];
-		i++;
-		x++;
-	}
+		dst[x++] = s2[i++];
 	dst[x] = '\0';
 	free(((char *) s1));
 	return (dst);
