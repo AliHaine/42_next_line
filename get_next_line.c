@@ -12,6 +12,23 @@
 
 #include "get_next_line.h"
 
+static int	get_size(char *tmp)
+{
+	int	i;
+
+	i = 0;
+	while (tmp[i] && tmp[i] != '\n')
+		i++;
+	if (i == 1)
+		i = 0;
+	if (tmp[i] != '\n')
+	{
+		if (i > 0)
+			i--;
+	}
+	return (i);
+}
+
 static char	*next_line(char *tmp, int i)
 {
 	int		j;
@@ -26,7 +43,10 @@ static char	*next_line(char *tmp, int i)
 	}
 	line = calloc((ft_strlen(tmp) - i) + 1, sizeof(char));
 	if (line == NULL)
+	{
+		free(tmp);
 		return (0);
+	}
 	i++;
 	j = 0;
 	while (tmp[i])
@@ -56,7 +76,7 @@ static char	*read_file(int fd, char *tmp)
 		buffer[read_ret] = '\0';
 		tmp = ft_strjoin(tmp, buffer);
 		if (tmp == NULL)
-			return (0);
+			break ;
 		if (ft_strchr(buffer, '\n'))
 			break ;
 	}
@@ -66,11 +86,13 @@ static char	*read_file(int fd, char *tmp)
 
 static char	*get_line(char *line, char *tmp, int i)
 {
-	while (tmp[i] && tmp[i] != '\n')
-		i++;
+	i = get_size(tmp);
 	line = ft_calloc(i + 2, sizeof(char));
 	if (line == NULL)
+	{
+		free(tmp);
 		return (0);
+	}
 	i = 0;
 	while (tmp[i] && tmp[i] != '\n')
 	{
